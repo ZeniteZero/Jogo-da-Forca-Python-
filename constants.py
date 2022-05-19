@@ -26,11 +26,15 @@ CINCO_ERROS = f"║         |\n║       __O__\n║         |\n║        /\n║
 SEIS_ERROS = f"║         |\n║       __O__\n║         |\n║        / \\\n║\n║"
 
 #--------------Mensagens--------------#
-OPCOES_TIPO_DE_JOGO = f"ESCOLHA O MODO DE JOGO:\n[{MODO_COMP_HUMANO}] Computador vs Humano\n[{MODO_HUMAN_HUMAN}] Humano vs Humano\n[{ENCERRAR}] Encerrar o jogo\n"
+OPCOES_TIPO_DE_JOGO = f"\nESCOLHA O MODO DE JOGO:\n[{MODO_COMP_HUMANO}] Computador vs Humano\n[{MODO_HUMAN_HUMAN}] Humano vs Humano\n[{ENCERRAR}] Encerrar o jogo\n"
 OPCOES_EM_JOGO = f"[1] Dizer uma letra\n[2] Dar palpite\n[3] Desistir\n"
+JA_USADA = f"\nEssa letra já foi usada!!\n"
 
-DERROTA = f"\n \n \n \n \n║---------------------------║ VOCÊ PERDEU!!!!!!! ║---------------------------║\n \n \n \n \n"
-VITORIA = f"\n \n \n \n \n║---------------------------║ PARABÉNS, VOCÊ VENCEU!!! ║---------------------------║\n \n \n \n \n"
+TENTATIVAS = f"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nVocê já tentou:"
+
+DERROTA = f"\n \n \n \n \n║------------║ VOCÊ PERDEU!!!!!!! ║------------║\n \n \n \n \n"
+VITORIA = f"\n \n \n \n \n║------------║ PARABÉNS, VOCÊ VENCEU!!! ║------------║\n \n \n \n \n"
+RESPOSTA = F"A resposta era: "
 
 PEDIR_LETRA = f"Escreva a Letra: "
 PEDIR_PALPITE = f"Digite seu palpite: "

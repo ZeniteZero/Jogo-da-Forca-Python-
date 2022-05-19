@@ -1,5 +1,5 @@
 from random import choice
-from constants import CARACTERE_ESCONDIDO, CINCO_ERROS, DERROTA, DESISTIR, DIRETORIO, DOIS_ERROS, ESCOLHA_LETRA, ESCOLHA_PALPITE, OPCOES_EM_JOGO, PEDIR_LETRA, PEDIR_PALPITE, QUATRO_ERROS, SEIS_ERROS, TOPO, TRES_ERROS, UM_ERRO, VITORIA, ZERO_ERROS, TEMAS_DISPONIVEIS
+from constants import CARACTERE_ESCONDIDO, CINCO_ERROS, DERROTA, DESISTIR, DIRETORIO, DOIS_ERROS, ESCOLHA_LETRA, ESCOLHA_PALPITE, JA_USADA, MODO_COMP_HUMANO, OPCOES_EM_JOGO, PEDIR_LETRA, PEDIR_PALPITE, QUATRO_ERROS, RESPOSTA, SEIS_ERROS, TENTATIVAS, TOPO, TRES_ERROS, UM_ERRO, VITORIA, ZERO_ERROS, TEMAS_DISPONIVEIS, TENTATIVAS
 
 
 def escolheTema() -> str:
@@ -12,7 +12,7 @@ def escolhePalavra(temaEscolhido: str) -> str:
         return choice(opcoesPalavras).strip()
 
     
-def ocultaPalavra(palavraEscolhida: str) -> str:
+def ocultaPalavra(palavraEscolhida: str) -> str:   
     palavraOculta = ""
     for i,j in enumerate(palavraEscolhida):
         palavraOculta = palavraOculta + CARACTERE_ESCONDIDO
@@ -32,6 +32,12 @@ def verificaPalpite(palavraEscolhida: str, palpite: str) -> bool:
         if palavraEscolhida[indice] != palpite[indice]:
             return False
     return True
+
+
+def verificaVitoria(palavraEscolhida: str, palavraOcultada: str) -> bool:
+    if palavraEscolhida == palavraOcultada:
+        return True
+    return False
 
 
 def geraBase(palavraEscondida: str) -> str:
@@ -56,6 +62,11 @@ def atualizaPalavra(palavraEscolhida: str, palavraOculta: str, letra: str) -> st
     return novaPalavra
 
 
+def geraTentativas(tentativasAtual: str, letra: str) -> str:
+    tentativasAtual = tentativasAtual + "  " + letra
+    return tentativasAtual
+
+
 def geraForca(erros: int) -> str:
 
     if erros == 0:
@@ -74,14 +85,21 @@ def geraForca(erros: int) -> str:
         return SEIS_ERROS
 
 
-def jogoComputadorHumano():
+def jogoForca(palavra: str, tema: str, modoDeJogo: str):
     erros = 0
-    tema = escolheTema()
-    palavra = escolhePalavra(tema)
+    letrasTentadas = ""
+
+    if modoDeJogo == MODO_COMP_HUMANO:
+        tema = escolheTema()
+        palavra = escolhePalavra(tema)
+
     palavraOcultada = ocultaPalavra(palavra)
+    palavraOcultada = atualizaPalavra(palavra, palavraOcultada, "-")
+    palavraOcultada = atualizaPalavra(palavra, palavraOcultada, ".")
 
     while True:
         base = geraBase(palavraOcultada)
+        print(TENTATIVAS + letrasTentadas) 
 
         print(f"========== {tema} ==========")
         print(TOPO)
@@ -92,12 +110,17 @@ def jogoComputadorHumano():
         opcaoJogo = input(OPCOES_EM_JOGO)
 
         if opcaoJogo == ESCOLHA_LETRA:
-            chuteLetra = input(PEDIR_LETRA)
+            chuteLetra = input(PEDIR_LETRA).upper().strip()
 
-            if verificaLetra(palavra, chuteLetra):
-                palavraOcultada = atualizaPalavra(palavra, palavraOcultada, chuteLetra)
+            if chuteLetra[0] in letrasTentadas:
+                print(JA_USADA)
+            elif verificaLetra(palavra, chuteLetra[0]):
+                palavraOcultada = atualizaPalavra(palavra, palavraOcultada, chuteLetra[0])
             else:
                 erros = erros + 1
+
+            if not(chuteLetra[0] in letrasTentadas):
+                letrasTentadas = geraTentativas(letrasTentadas, chuteLetra[0])
 
         elif opcaoJogo == ESCOLHA_PALPITE:
             chutePalpite = input(PEDIR_PALPITE)
@@ -110,53 +133,18 @@ def jogoComputadorHumano():
 
         elif opcaoJogo == DESISTIR:
             print(DERROTA)
+            print(RESPOSTA + palavra)
             break
         
         #finaliza jogo em caso de derrota
         if erros == 6:
             print(DERROTA)
+            print(RESPOSTA + palavra)
             break
 
-
-def jogoHumanoHumano(palavra, tema):
-    erros = 0
-    palavraOcultada = ocultaPalavra(palavra)
-
-    while True:
-        base = geraBase(palavraOcultada)
-
-        print(f"========== {tema} ==========")
-        print(TOPO)
-        print(geraForca(erros))
-        print(base)
-        
-        #aqui começa as ações possivei no jogo
-        opcaoJogo = input(OPCOES_EM_JOGO)
-
-        if opcaoJogo == ESCOLHA_LETRA:
-            chuteLetra = input(PEDIR_LETRA)
-
-            if verificaLetra(palavra, chuteLetra):
-                palavraOcultada = atualizaPalavra(palavra, palavraOcultada, chuteLetra)
-            else:
-                erros = erros + 1
-
-        elif opcaoJogo == ESCOLHA_PALPITE:
-            chutePalpite = input(PEDIR_PALPITE)
-
-            if verificaPalpite(palavra, chutePalpite):
-                print(VITORIA)
-                break
-            else:
-                erros = erros + 1
-
-        elif opcaoJogo == DESISTIR:
-            print(DERROTA)
-            break
-        
-        #finaliza jogo em caso de derrota
-        if erros == 6:
-            print(DERROTA)
+        if verificaVitoria(palavra, palavraOcultada):
+            print(VITORIA)
+            print(RESPOSTA + palavra)
             break
 
 

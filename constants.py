@@ -34,7 +34,7 @@ TENTATIVAS = f"\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nVocê já
 
 DERROTA = f"\n \n \n \n \n║------------║ VOCÊ PERDEU!!!!!!! ║------------║\n \n \n \n \n"
 VITORIA = f"\n \n \n \n \n║------------║ PARABÉNS, VOCÊ VENCEU!!! ║------------║\n \n \n \n \n"
-RESPOSTA = F"A resposta era: "
+RESPOSTA = f"A resposta era: "
 
 PEDIR_LETRA = f"Escreva a Letra: "
 PEDIR_PALPITE = f"Digite seu palpite: "
